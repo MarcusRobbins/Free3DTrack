@@ -141,12 +141,15 @@ namespace WinFormsGraphicsDevice
 
                 for(int t = 0; t < lWebCams[i].FilteredTrackedPoints.TrackedPoints.Count; t++)
                 {
-                    float X = lWebCams[i].FilteredTrackedPoints.TrackedPoints[t].Points.Select(x=>x.X).Average();
-                    float Y = lWebCams[i].FilteredTrackedPoints.TrackedPoints[t].Points.Select(x=>x.Y).Average();
+                    if (lWebCams[i].FilteredTrackedPoints.TrackedPoints[t].Points.Count > 0)
+                    {
+                        float X = lWebCams[i].FilteredTrackedPoints.TrackedPoints[t].Points.Select(x => x.X).Average();
+                        float Y = lWebCams[i].FilteredTrackedPoints.TrackedPoints[t].Points.Select(x => x.Y).Average();
 
-                    X = X / 640.0f * thisBitmap.Width;
-                    Y = Y / 480.0f * thisBitmap.Width;
-                    g.DrawRectangle(thisPen, X - 5, Y - 5, 10, 10); 
+                        X = X / 640.0f * thisBitmap.Width;
+                        Y = Y / 480.0f * thisBitmap.Width;
+                        g.DrawRectangle(thisPen, X - 5, Y - 5, 10, 10);
+                    }
                 }
 
                 lSimpleTrackPictureBox[i].Image = thisBitmap;
