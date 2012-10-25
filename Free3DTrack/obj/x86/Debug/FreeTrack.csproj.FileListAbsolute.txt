@@ -1,0 +1,2 @@
+C:\Users\Bexus\Dropbox\XNAWinformsExample\WinFormsGraphicsDevice\obj\x86\Debug\WinFormsGraphicsDevice.exe
+C:\Users\Bexus\Dropbox\XNAWinformsExample\WinFormsGraphicsDevice\obj\x86\Debug\WinFormsGraphicsDevice.pdb
