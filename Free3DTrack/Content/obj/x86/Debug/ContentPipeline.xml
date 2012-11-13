@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
+<XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline" xmlns:Framework="Microsoft.Xna.Framework" xmlns:Processors="Microsoft.Xna.Framework.Content.Pipeline.Processors">
   <Asset Type="Pipeline:BuildItemCollection">
     <Item>
       <Source>hudFont.spritefont</Source>
@@ -7,8 +7,182 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>D:\Free3DTrack\Free3DTrack\Free3DTrack\ContentLibrary\bin\x86\Debug\Content\hudFont.xnb</Output>
-      <Time>2012-10-08T18:46:49.8319257+01:00</Time>
+      <Output>C:\Users\MRobbins\Dropbox\Free3DTrack\Free3DTrack\ContentLibrary\bin\x86\Debug\Content\hudFont.xnb</Output>
+      <Time>2012-10-08T18:46:49+01:00</Time>
+    </Item>
+    <Item>
+      <Source>eurofighter fbx.fbx</Source>
+      <Name>eurofighter</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\MRobbins\Dropbox\Free3DTrack\Free3DTrack\ContentLibrary\bin\x86\Debug\Content\eurofighter.xnb</Output>
+      <Time>2012-10-26T12:48:25.4686164+01:00</Time>
+      <Dependency>
+        <Key>obj\x86\Debug\eurofighter fbx_0.xml</Key>
+        <Value>2012-11-12T12:40:51.5513209+00:00</Value>
+      </Dependency>
+    </Item>
+    <Item>
+      <Source>model.FBX</Source>
+      <Name>model</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\MRobbins\Dropbox\Free3DTrack\Free3DTrack\ContentLibrary\bin\x86\Debug\Content\model.xnb</Output>
+      <Time>2012-10-26T19:41:27+01:00</Time>
+      <Dependency>
+        <Key>obj\x86\Debug\model_0.xml</Key>
+        <Value>2012-11-12T12:40:53.4375095+00:00</Value>
+      </Dependency>
+    </Item>
+    <Item>
+      <Source>L200-FBX.fbx</Source>
+      <Name>L200-FBX</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\MRobbins\Dropbox\Free3DTrack\Free3DTrack\ContentLibrary\bin\x86\Debug\Content\L200-FBX.xnb</Output>
+      <Time>2012-10-26T20:30:07+01:00</Time>
+      <Dependency>
+        <Key>obj\x86\Debug\L200-FBX_0.xml</Key>
+        <Value>2012-11-12T12:40:54.1065764+00:00</Value>
+      </Dependency>
+      <Request>C:\Users\MRobbins\Dropbox\Free3DTrack\Free3DTrack\ContentLibrary\bin\x86\Debug\Content\truck_color_0.xnb</Request>
+    </Item>
+    <Item>
+      <Source>plum blossom in glass cup_fbx.FBX</Source>
+      <Name>plum blossom in glass cup_fbx</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\MRobbins\Dropbox\Free3DTrack\Free3DTrack\ContentLibrary\bin\x86\Debug\Content\plum blossom in glass cup_fbx.xnb</Output>
+      <Time>2012-10-27T01:46:57+01:00</Time>
+      <Dependency>
+        <Key>obj\x86\Debug\plum blossom in glass cup_fbx_0.xml</Key>
+        <Value>2012-11-12T12:40:58.9060563+00:00</Value>
+      </Dependency>
+      <Request>C:\Users\MRobbins\Dropbox\Free3DTrack\Free3DTrack\ContentLibrary\bin\x86\Debug\Content\p_01_0.xnb</Request>
+    </Item>
+    <Item>
+      <Source>green_int.fbx</Source>
+      <Name>green_int</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\MRobbins\Dropbox\Free3DTrack\Free3DTrack\ContentLibrary\bin\x86\Debug\Content\green_int.xnb</Output>
+      <Time>2012-10-27T01:52:00+01:00</Time>
+      <Dependency>
+        <Key>obj\x86\Debug\green_int_0.xml</Key>
+        <Value>2012-11-12T12:40:59.6411298+00:00</Value>
+      </Dependency>
+    </Item>
+    <Item>
+      <Source>quarto01-cycles_2.63.fbx</Source>
+      <Name>quarto01-cycles_2.63</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\MRobbins\Dropbox\Free3DTrack\Free3DTrack\ContentLibrary\bin\x86\Debug\Content\quarto01-cycles_2.63.xnb</Output>
+      <Time>2012-10-28T23:12:36+00:00</Time>
+      <Dependency>
+        <Key>obj\x86\Debug\quarto01-cycles_2.63_0.xml</Key>
+        <Value>2012-11-12T12:41:02.893455+00:00</Value>
+      </Dependency>
+    </Item>
+    <Item>
+      <Source>maison2.fbx</Source>
+      <Name>maison2</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\MRobbins\Dropbox\Free3DTrack\Free3DTrack\ContentLibrary\bin\x86\Debug\Content\maison2.xnb</Output>
+      <Time>2012-10-28T23:54:16+00:00</Time>
+      <Dependency>
+        <Key>obj\x86\Debug\maison2_0.xml</Key>
+        <Value>2012-11-12T12:41:08.183983+00:00</Value>
+      </Dependency>
+    </Item>
+    <Item>
+      <Source>eurofighter fbx.fbx</Source>
+      <Importer>FbxImporter</Importer>
+      <Options>IntermediateFile, DontCacheImportedData</Options>
+      <Output>obj\x86\Debug\eurofighter fbx_0.xml</Output>
+      <Time>2012-10-26T12:48:25.4686164+01:00</Time>
+    </Item>
+    <Item>
+      <Source>model.FBX</Source>
+      <Importer>FbxImporter</Importer>
+      <Options>IntermediateFile, DontCacheImportedData</Options>
+      <Output>obj\x86\Debug\model_0.xml</Output>
+      <Time>2012-10-26T19:41:27+01:00</Time>
+    </Item>
+    <Item>
+      <Source>L200-FBX.fbx</Source>
+      <Importer>FbxImporter</Importer>
+      <Options>IntermediateFile, DontCacheImportedData</Options>
+      <Output>obj\x86\Debug\L200-FBX_0.xml</Output>
+      <Time>2012-10-26T20:30:07+01:00</Time>
+    </Item>
+    <Item>
+      <Source>C:\Users\MRobbins\Dropbox\Free3DTrack\Free3DTrack\L200-C4D\tex\truck_color.jpg</Source>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Parameters>
+        <Data Key="ColorKeyColor" Type="Framework:Color">FFFF00FF</Data>
+        <Data Key="ColorKeyEnabled" Type="bool">true</Data>
+        <Data Key="TextureFormat" Type="Processors:TextureProcessorOutputFormat">DxtCompressed</Data>
+        <Data Key="GenerateMipmaps" Type="bool">true</Data>
+        <Data Key="ResizeToPowerOfTwo" Type="bool">false</Data>
+        <Data Key="PremultiplyAlpha" Type="bool">true</Data>
+      </Parameters>
+      <Options>None</Options>
+      <Output>C:\Users\MRobbins\Dropbox\Free3DTrack\Free3DTrack\ContentLibrary\bin\x86\Debug\Content\truck_color_0.xnb</Output>
+      <Time>2012-10-26T20:29:36+01:00</Time>
+    </Item>
+    <Item>
+      <Source>plum blossom in glass cup_fbx.FBX</Source>
+      <Importer>FbxImporter</Importer>
+      <Options>IntermediateFile, DontCacheImportedData</Options>
+      <Output>obj\x86\Debug\plum blossom in glass cup_fbx_0.xml</Output>
+      <Time>2012-10-27T01:46:57+01:00</Time>
+    </Item>
+    <Item>
+      <Source>C:\Users\MRobbins\Dropbox\Free3DTrack\texture\p_01.jpg</Source>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Parameters>
+        <Data Key="ColorKeyColor" Type="Framework:Color">FFFF00FF</Data>
+        <Data Key="ColorKeyEnabled" Type="bool">true</Data>
+        <Data Key="TextureFormat" Type="Processors:TextureProcessorOutputFormat">DxtCompressed</Data>
+        <Data Key="GenerateMipmaps" Type="bool">true</Data>
+        <Data Key="ResizeToPowerOfTwo" Type="bool">false</Data>
+        <Data Key="PremultiplyAlpha" Type="bool">true</Data>
+      </Parameters>
+      <Options>None</Options>
+      <Output>C:\Users\MRobbins\Dropbox\Free3DTrack\Free3DTrack\ContentLibrary\bin\x86\Debug\Content\p_01_0.xnb</Output>
+      <Time>2011-06-30T15:36:03+01:00</Time>
+    </Item>
+    <Item>
+      <Source>green_int.fbx</Source>
+      <Importer>FbxImporter</Importer>
+      <Options>IntermediateFile, DontCacheImportedData</Options>
+      <Output>obj\x86\Debug\green_int_0.xml</Output>
+      <Time>2012-10-27T01:52:00+01:00</Time>
+    </Item>
+    <Item>
+      <Source>quarto01-cycles_2.63.fbx</Source>
+      <Importer>FbxImporter</Importer>
+      <Options>IntermediateFile, DontCacheImportedData</Options>
+      <Output>obj\x86\Debug\quarto01-cycles_2.63_0.xml</Output>
+      <Time>2012-10-28T23:12:36+00:00</Time>
+    </Item>
+    <Item>
+      <Source>maison2.fbx</Source>
+      <Importer>FbxImporter</Importer>
+      <Options>IntermediateFile, DontCacheImportedData</Options>
+      <Output>obj\x86\Debug\maison2_0.xml</Output>
+      <Time>2012-10-28T23:54:16+00:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
@@ -16,39 +190,39 @@
       <TargetProfile>Reach</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>D:\Free3DTrack\Free3DTrack\Free3DTrack\Content\</RootDirectory>
-      <LoggerRootDirectory>D:\Free3DTrack\Free3DTrack\Free3DTrack\ContentLibrary\</LoggerRootDirectory>
-      <IntermediateDirectory>D:\Free3DTrack\Free3DTrack\Free3DTrack\Content\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>D:\Free3DTrack\Free3DTrack\Free3DTrack\ContentLibrary\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>C:\Users\MRobbins\Dropbox\Free3DTrack\Free3DTrack\Content\</RootDirectory>
+      <LoggerRootDirectory>C:\Users\MRobbins\Dropbox\Free3DTrack\Free3DTrack\ContentLibrary\</LoggerRootDirectory>
+      <IntermediateDirectory>C:\Users\MRobbins\Dropbox\Free3DTrack\Free3DTrack\Content\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>C:\Users\MRobbins\Dropbox\Free3DTrack\Free3DTrack\ContentLibrary\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
         <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
-        <Value>2010-08-23T13:41:18+01:00</Value>
+        <Value>2010-08-23T12:41:18+01:00</Value>
       </Assembly>
       <Assembly>
         <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.VideoImporters.dll</Key>
-        <Value>2010-08-23T13:41:18+01:00</Value>
+        <Value>2010-08-23T12:41:18+01:00</Value>
       </Assembly>
       <Assembly>
         <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll</Key>
-        <Value>2010-08-23T13:41:18+01:00</Value>
+        <Value>2010-08-23T12:41:18+01:00</Value>
       </Assembly>
       <Assembly>
         <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.FBXImporter.dll</Key>
-        <Value>2010-08-23T13:41:18+01:00</Value>
+        <Value>2010-08-23T12:41:18+01:00</Value>
       </Assembly>
       <Assembly>
         <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll</Key>
-        <Value>2010-08-23T13:41:18+01:00</Value>
+        <Value>2010-08-23T12:41:18+01:00</Value>
       </Assembly>
       <Assembly>
         <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.AudioImporters.dll</Key>
-        <Value>2010-08-23T13:41:18+01:00</Value>
+        <Value>2010-08-23T12:41:18+01:00</Value>
       </Assembly>
       <Assembly>
         <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
-        <Value>2012-02-06T16:06:14.3772655+00:00</Value>
+        <Value>2012-10-08T13:34:55.1149305+01:00</Value>
       </Assembly>
     </Assemblies>
   </Asset>

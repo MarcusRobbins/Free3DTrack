@@ -95,8 +95,7 @@ namespace WinFormsGraphicsDevice
                     double yLocation;
                     double xLocation;
 
-                    xLocation = Math.Round(640 - lCalibrationTracks[i].Points[t].X, 2);
-
+                    xLocation = Math.Round(lCalibrationTracks[i].Points[t].X, 2);
                     yLocation = Math.Round(lCalibrationTracks[i].Points[t].Y, 2);
 
                     double rnd1 = Math.Round(random.NextDouble() * 20, 2);

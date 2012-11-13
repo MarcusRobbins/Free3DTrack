@@ -16,6 +16,7 @@ using Microsoft.Xna.Framework.Content;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 #endregion
 
 namespace WinFormsGraphicsDevice
@@ -31,6 +32,7 @@ namespace WinFormsGraphicsDevice
     {
         BasicEffect effect;
         Stopwatch timer;
+
 
         // Vertex positions and colors used to display a spinning triangle.
         public readonly VertexPositionColor[] Vertices =
@@ -69,16 +71,58 @@ namespace WinFormsGraphicsDevice
 
         public List<WebCam> WebCams = new List<WebCam>();
         public List<WebCamEye> WebCamsEye = new List<WebCamEye>();
-
+        
         public List<int> WebCamPermute;
 
         public bool AccumulatePoints = false;
 
+        public ServiceContainer Services
+        {
+            get { return services; }
+        }
+
+        ServiceContainer services = new ServiceContainer();
+
+        List<Model> models = new List<Model>();
         /// <summary>
         /// Initializes the control.
         /// </summary>
         protected override void Initialize()
         {
+            //new Microsoft.Xna.Framework.Content.ContentReader();
+            //IServiceProvider sc = new ServiceContainer();
+
+            //IGraphicsDeviceService gs = (IGraphicsDeviceService)Services.GetService(typeof(GraphicsDeviceService));
+
+            services.AddService<IGraphicsDeviceService>(graphicsDeviceService);
+
+            string folder = @"C:\Users\MRobbins\Dropbox\XNAWinformsExample\WinFormsGraphicsDevice\Content\";
+            List<Texture2D> textures = new List<Texture2D>();
+            
+            ContentManager content = new ContentManager(services, folder);
+            //string[] files = Directory.GetFiles(folder, "*.fbx");
+            //foreach (string file in files)
+            //{
+            //    string assetName = Path.GetFileNameWithoutExtension(file);
+            //    //textures.Add(content.Load<Texture2D>(assetName));
+            //    models.Add(content.Load<Model>(assetName));
+            //}
+
+            content.RootDirectory = "Content";
+
+            //models.Add(content.Load<Model>("tree_curvedBack_02"));
+            models.Add(content.Load<Model>("maison2"));
+            models.Add(content.Load<Model>("quarto01-cycles_2.63"));
+            models.Add(content.Load<Model>("green_int"));
+            models.Add(content.Load<Model>("model"));
+            models.Add(content.Load<Model>("plum blossom in glass cup_fbx"));
+            models.Add(content.Load<Model>("eurofighter"));
+            models.Add(content.Load<Model>("L200-FBX"));
+            
+            
+
+            //myModel = Microsoft.Xna.Framework.Content.ContentReader<Model>.Load<Model>("Models\\p1_wedge");
+
             // Create our effect.
             effect = new BasicEffect(GraphicsDevice);
 
@@ -115,6 +159,18 @@ namespace WinFormsGraphicsDevice
 
         Matrix ViewMatrix;
 
+        public float ModelX = 0.0f;
+        public float ModelY = 0.0f;
+        public float ModelZ = 0.0f;
+        public bool ShowModel = false;
+
+        public float customUpX = 0;
+        public float customUpY = 1;
+        public float customUpZ = 0;
+
+        public bool IRLocationRender = false;
+        public bool ViewTrackModel = true;
+
         /// <summary>
         /// Draws the control.
         /// </summary>
@@ -126,10 +182,29 @@ namespace WinFormsGraphicsDevice
                 float averageY = cameraConfig.Cameras.Select(x => x.PositionVector.Y).Average();
                 float averageZ = cameraConfig.Cameras.Select(x => x.PositionVector.Z).Average();
 
-                ViewMatrix = Matrix.CreateTranslation(-averageX, -averageY, -averageZ);
-                ViewMatrix = ViewMatrix * Matrix.CreateFromYawPitchRoll(yaw * dragSensitivity, roll * dragSensitivity, pitch * dragSensitivity);
-                ViewMatrix = ViewMatrix * Matrix.CreateTranslation(0, 0, -(5 * globalScaling)) * Matrix.CreateReflection(new Plane(new Vector4(1, 1, 0, 0)));
+                if (IRLocationRender)
+                {
+                    //ViewMatrix = Matrix.CreateTranslation(-currentTrackX, -currentTrackY, -currentTrackZ);
+                    //ViewMatrix = ViewMatrix;// * Matrix.CreateFromYawPitchRoll(yaw * dragSensitivity, roll * dragSensitivity, pitch * dragSensitivity);
+                    ViewMatrix = Matrix.Identity;
 
+                    if (ViewTrackModel)
+                    {
+                        ViewMatrix = ViewMatrix * Matrix.CreateLookAt(new Vector3(currentTrackX, currentTrackY, currentTrackZ), new Vector3(ModelX, ModelY, ModelZ), new Vector3(customUpX, customUpY, customUpZ));
+                    }
+                    else 
+                    {
+                        ViewMatrix = Matrix.CreateTranslation(-currentTrackX, -currentTrackY, -currentTrackZ);
+                        ViewMatrix = ViewMatrix * Matrix.CreateFromYawPitchRoll(yaw * dragSensitivity, roll * dragSensitivity, pitch * dragSensitivity);
+                    }
+
+                }
+                else
+                {
+                    ViewMatrix = Matrix.CreateTranslation(-averageX, -averageY, -averageZ);
+                    ViewMatrix = ViewMatrix * Matrix.CreateFromYawPitchRoll(yaw * dragSensitivity, roll * dragSensitivity, pitch * dragSensitivity);
+                    ViewMatrix = ViewMatrix * Matrix.CreateTranslation(0, 0, -(5 * globalScaling));// *Matrix.CreateReflection(new Plane(new Vector4(1, 1, 0, 0)));
+                }
                 GraphicsDevice.Clear(Color.CornflowerBlue);
 
                 try
@@ -147,6 +222,10 @@ namespace WinFormsGraphicsDevice
                         }
                         //drawPoints(cameraConfig);
                         drawIntersections();
+                        if (ShowModel)
+                        {
+                            drawModel(ModelX, ModelY, ModelZ);
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -273,7 +352,7 @@ namespace WinFormsGraphicsDevice
             //                                  Vector3.Zero, Vector3.Up);
 
             effect.View = ViewMatrix; //Matrix.CreateFromYawPitchRoll(yaw * dragSensitivity, pitch * dragSensitivity, roll * dragSensitivity) * Matrix.CreateLookAt(new Vector3(0, 0, -5 * globalScaling),
-            //                    Vector3.Zero, Vector3.Up);
+                          //                    Vector3.Zero, Vector3.Up);
 
 
             effect.Projection = Matrix.CreatePerspectiveFieldOfView(1, aspect, 0.01f, 100);
@@ -304,65 +383,93 @@ namespace WinFormsGraphicsDevice
 
             effect.World = Matrix.Identity * Matrix.CreateTranslation(viewTranslationVector);
 
+            //effect.World = effect.World * Matrix.CreateTranslation(thisCamera.PositionVector);
+
+            //effect.World = effect.World * Matrix.CreateFromYawPitchRoll(yaw * dragSensitivity, pitch * dragSensitivity, roll * dragSensitivity);
+
+            //effect.World = effect.World * Matrix.CreateScale(globalScaling);
+
+            //effect.View = Matrix.CreateFromYawPitchRoll(yaw * dragSensitivity, pitch * dragSensitivity, roll * dragSensitivity) * Matrix.CreateLookAt(new Vector3(0, 0, -5 * globalScaling),
+            //                                  Vector3.Zero, Vector3.Up);
+
             effect.View = ViewMatrix;
 
             effect.Projection = Matrix.CreatePerspectiveFieldOfView(1, aspect, 0.01f, 100);
+
+            
+
+            //for (int i = 0; i < thisCamera.TrackedPoints.Count; i++)
+            //{
+
+            //int i = (int)rotAngleX;
+            //if (i < thisCamera.TrackedPoints.Count)
+            //{
+
 
             //TrackedImagePoint thisPoint = thisCamera.TrackedPoints[i];
             int testy = 0;
 
             //if (WebCamPermute != null)
             //{
-            //int thisCamIndex = WebCamPermute[i];
+                //int thisCamIndex = WebCamPermute[i];
             int thisCamIndex = i;
 
-            if (thisCamIndex < WebCamsEye.Count)
-            {
-                if (WebCamsEye[thisCamIndex].FilteredTrackedPoints != null)
+                if (thisCamIndex < WebCamsEye.Count)
                 {
-                    if (WebCamsEye[thisCamIndex].FilteredTrackedPoints.TrackedPoints != null)
+                    if (WebCamsEye[thisCamIndex].FilteredTrackedPoints != null)
                     {
-                        if (WebCamsEye[thisCamIndex].FilteredTrackedPoints.TrackedPoints.Count > 0)
+                        if (WebCamsEye[thisCamIndex].FilteredTrackedPoints.TrackedPoints != null)
                         {
-                            try
+                            if (WebCamsEye[thisCamIndex].FilteredTrackedPoints.TrackedPoints.Count > 0)
                             {
-                                for (int r = 0; r < WebCamsEye[thisCamIndex].FilteredTrackedPoints.TrackedPoints.Count; r++)
-                                {
-                                    WebCamTrack thisTrack = WebCamsEye[thisCamIndex].FilteredTrackedPoints.TrackedPoints[r];
-
-                                    if (thisTrack.Points.Count > 0)
+                                //if (WebCamPermute.Count > 0)
+                               // {
+                                    try
                                     {
-                                        Vector3 WordCoordinates = thisCamera.ImageToWorld(thisTrack.Points.Select(x => x.X).Average(), thisTrack.Points.Select(x => x.Y).Average(), -100, transposeRot, negateRot, invertRot, invertZ, rotAngleX, rotAngleY, rotAngleZ);
-                                        //Vector3 WordCoordinates = thisCamera.ImageToWorld(thisTrack.Points[0].X, thisTrack.Points[0].Y, -100, transposeRot, negateRot, invertRot, invertZ, rotAngleX, rotAngleY, rotAngleZ);
+                                        for (int r = 0; r < WebCamsEye[thisCamIndex].FilteredTrackedPoints.TrackedPoints.Count; r++)
+                                        {
+                                            WebCamTrack thisTrack = WebCamsEye[thisCamIndex].FilteredTrackedPoints.TrackedPoints[r];
 
-                                        Vector3 startPoint = new Vector3(thisCamera.PositionVector.X, thisCamera.PositionVector.Y, thisCamera.PositionVector.Z);
-                                        Vector3 endPoint = new Vector3(WordCoordinates.X, (float)WordCoordinates.Y, (float)WordCoordinates.Z);
+                                            if (thisTrack.Points.Count > 0)
+                                            {
+                                                Vector3 WordCoordinates = thisCamera.ImageToWorld(thisTrack.Points.Select(x => x.X).Average(), thisTrack.Points.Select(x => x.Y).Average(), -100, transposeRot, negateRot, invertRot, invertZ, rotAngleX, rotAngleY, rotAngleZ);
+                                                //Vector3 WordCoordinates = thisCamera.ImageToWorld(thisTrack.Points[0].X, thisTrack.Points[0].Y, -100, transposeRot, negateRot, invertRot, invertZ, rotAngleX, rotAngleY, rotAngleZ);
 
-                                        //trackInCamera.Add(thisCamIndex);
-                                        IntersectionLines.Add(new Line3D { LineStart = new Point3D(startPoint.X, startPoint.Y, startPoint.Z), LineEnd = new Point3D(endPoint.X, endPoint.Y, endPoint.Z) });
+                                                Vector3 startPoint = new Vector3(thisCamera.PositionVector.X, thisCamera.PositionVector.Y, thisCamera.PositionVector.Z);
+                                                Vector3 endPoint = new Vector3(WordCoordinates.X, (float)WordCoordinates.Y, (float)WordCoordinates.Z);
 
-                                        effect.CurrentTechnique.Passes[0].Apply();
-                                        var vertices = new[] { new VertexPositionColor(startPoint, Microsoft.Xna.Framework.Color.Red), new VertexPositionColor(endPoint, Microsoft.Xna.Framework.Color.Red) };
-                                        effect.GraphicsDevice.DrawUserPrimitives(PrimitiveType.LineList, vertices, 0, 1);
+                                                //trackInCamera.Add(thisCamIndex);
+                                                IntersectionLines.Add(new Line3D { LineStart = new Point3D(startPoint.X, startPoint.Y, startPoint.Z), LineEnd = new Point3D(endPoint.X, endPoint.Y, endPoint.Z) });
+
+                                                effect.CurrentTechnique.Passes[0].Apply();
+                                                var vertices = new[] { new VertexPositionColor(startPoint, Microsoft.Xna.Framework.Color.Red), new VertexPositionColor(endPoint, Microsoft.Xna.Framework.Color.Red) };
+                                                effect.GraphicsDevice.DrawUserPrimitives(PrimitiveType.LineList, vertices, 0, 1);
+                                            }
+                                            else
+                                            {
+                                                //trackInCamera[thisCamIndex] = false;
+                                            }
+                                        }
                                     }
-                                    else
+                                    catch (Exception test)
                                     {
+                                        testy = 1;
                                     }
-                                }
+                                    return;
+                                //}
                             }
-                            catch (Exception test)
+                            else
                             {
-                                testy = 1;
+                                //trackInCamera[thisCamIndex] = false;
                             }
-                            return;
-                        }
-                        else
-                        {
                         }
                     }
-                }
+                //}
+                //IntersectionLines[thisCamIndex].Displ
             }
         }
+
+        //public List<bool> trackInCamera = new List<bool>();
 
         public List<Line3D> IntersectionLines = new List<Line3D>();
         public List<Point3D> IntersectionAverage = new List<Point3D>();
@@ -374,6 +481,8 @@ namespace WinFormsGraphicsDevice
 
         private void drawIntersections()
         {
+            //IntersectionAverage.Clear();
+
             List<Point3D> thisIntersectionAverage = new List<Point3D>();
 
             for (int s = 0; s < IntersectionLines.Count; s++)
@@ -398,10 +507,11 @@ namespace WinFormsGraphicsDevice
 
                         effect.CurrentTechnique.Passes[0].Apply();
                         var vertices = new[] { new VertexPositionColor(startPoint, Microsoft.Xna.Framework.Color.Red), new VertexPositionColor(endPoint, Microsoft.Xna.Framework.Color.Red) };
+                        //basicEffect.GraphicsDevice.DrawUserPrimitives(PrimitiveType.LineList, vertices, 0, 1);
 
                         float lineLength = (shortestLineStart - shortestLineEnd).Length();
 
-
+                        
                         if (lineLength < IntersectionThreshold)
                         {
                             float lineMiddleX = (shortestLineStart.X + shortestLineEnd.X) / 2.0f;
@@ -439,7 +549,7 @@ namespace WinFormsGraphicsDevice
                     double zdeltasq = Math.Pow(thisIntersectionAverage[0].Z - thisIntersectionAverage[innercount].Z, 2);
                     double distance = Math.Sqrt(xdeltasq + ydeltasq + zdeltasq);
 
-
+                    
                     if (distance < ClusterThreshold)
                     {
                         newCluster.points.Add(new clusterPoints { x = thisIntersectionAverage[innercount].X, y = thisIntersectionAverage[innercount].Y, z = thisIntersectionAverage[innercount].Z });
@@ -467,25 +577,66 @@ namespace WinFormsGraphicsDevice
                 }
             }
 
+
             //IntersectionAverage = IntersectionAverage.Skip(Math.Max(0, IntersectionAverage.Count() - 5000)).Take(5000).ToList();
             if (!AccumulatePoints)
             {
-                IntersectionAverage.Clear();
+                //IntersectionAverage.Clear();
             }
 
             for (int i = 0; i < Clustersnew.Count; i++)
             {
-                IntersectionAverage.Add(new Point3D(Clustersnew[i].points.Select(x => x.x).Average(), Clustersnew[i].points.Select(x => x.y).Average(), Clustersnew[i].points.Select(x => x.z).Average()));
+                if (AccumulatePoints)
+                {
+                    IntersectionAverage.Add(new Point3D(Clustersnew[i].points.Select(x => x.x).Average(), Clustersnew[i].points.Select(x => x.y).Average(), Clustersnew[i].points.Select(x => x.z).Average()));
+                }
+                else 
+                {
+                    if (IntersectionAverage.Count > 0)
+                    {
+                        IntersectionAverage.RemoveAt(IntersectionAverage.Count - 1);
+                    }
+                    IntersectionAverage.Add(new Point3D(Clustersnew[i].points.Select(x => x.x).Average(), Clustersnew[i].points.Select(x => x.y).Average(), Clustersnew[i].points.Select(x => x.z).Average()));
+                }
             }
+
+            //if (Clusters.Count > 0)
+            //{
+            //    try
+            //    {
+            //        //IntersectionAverage.Clear();
+            //        IntersectionAverage.Add(new Point3D(thisIntersectionAverage.Select(x => x.X).Average(), thisIntersectionAverage.Select(x => x.Y).Average(), thisIntersectionAverage.Select(x => x.Z).Average()));
+            //    }
+            //    catch (Exception ex)
+            //    { 
+
+            //    }
+            //}
+
+            //for (int i = 0; i < IntersectionAverage.Count; i++)
+            //{
             if (thisIntersectionAverage.Count > 0)
             {
+                //IntersectionAverage.Add(new Point3D(thisIntersectionAverage.Select(x => x.X).Average(), thisIntersectionAverage.Select(x => x.Y).Average(), thisIntersectionAverage.Select(x => x.Z).Average()));
+
             }
 
             for (int i = 0; i < IntersectionAverage.Count; i++)
             {
                 drawPoint(IntersectionAverage[i].X, IntersectionAverage[i].Y, IntersectionAverage[i].Z, 0.015f);
             }
+
+            if (IntersectionAverage.Count > 0)
+            {
+                currentTrackX = IntersectionAverage[IntersectionAverage.Count - 1].X;
+                currentTrackY = IntersectionAverage[IntersectionAverage.Count - 1].Y;
+                currentTrackZ = IntersectionAverage[IntersectionAverage.Count - 1].Z;
+            }
         }
+
+        public float currentTrackX = 0;
+        public float currentTrackY = 0;
+        public float currentTrackZ = 0;
 
 
         public static bool CalculateLineLineIntersection(Vector3 line1Point1, Vector3 line1Point2,
@@ -539,16 +690,32 @@ namespace WinFormsGraphicsDevice
             return true;
         }
 
+        public float ModelScale = 1.0f;
 
         private void drawPoint(float x, float y, float z, float scale)
         {
             // Set transform matrices.
             float aspect = GraphicsDevice.Viewport.AspectRatio;
 
-            effect.World = Matrix.Identity * Matrix.CreateScale(scale);
+            effect.World = Matrix.Identity * Matrix.CreateScale(scale); //Matrix.CreateScale(cameraModelScaling) * thisCamera.RotationMatrix;
             effect.World = effect.World * Matrix.CreateTranslation(x, y, z);
+            //effect.World = effect.World * Matrix.CreateTranslation(x, y, z) * Matrix.CreateTranslation(-IntersectionAverage.Select(q => q.X).Average(), -IntersectionAverage.Select(q => q.Y).Average(), -IntersectionAverage.Select(q => q.Z).Average()); //* Matrix.CreateTranslation(viewTranslationVector);
+            //effect.World = effect.World * Matrix.CreateTranslation(x, y, z) * Matrix.CreateTranslation(-IntersectionAverage[0].X, -IntersectionAverage[0].Y, -IntersectionAverage[0].Z); //* Matrix.CreateTranslation(viewTranslationVector);
+
+            //effect.World = effect.World * Matrix.CreateFromYawPitchRoll(yaw * dragSensitivity, pitch * dragSensitivity, roll * dragSensitivity);
+
+            //effect.World = effect.World * Matrix.CreateScale(globalScaling);
+
+            //effect.View = Matrix.CreateLookAt(new Vector3(0, 0, -5),
+            //                                  Vector3.Zero, Vector3.Up);
+
+
+
+            //effect.View = Matrix.CreateFromYawPitchRoll(yaw * dragSensitivity, pitch * dragSensitivity, roll * dragSensitivity) * Matrix.CreateLookAt(new Vector3(IntersectionAverage.Last().X, IntersectionAverage.Last().Y, IntersectionAverage.Last().Z),
+            //                            Vector3.Zero, Vector3.Up);
 
             effect.View = ViewMatrix;
+
 
             effect.Projection = Matrix.CreatePerspectiveFieldOfView(1, aspect, 0.01f, 100);
 
@@ -565,6 +732,77 @@ namespace WinFormsGraphicsDevice
             GraphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleList,
                                               Vertices3, 0, 1);
 
+            //Model myModel = models[2];
+
+            //// Copy any parent transforms.
+            //Matrix[] transforms = new Matrix[myModel.Bones.Count];
+            //myModel.CopyBoneTransformsTo(transforms);
+
+            ////myModel.
+            //foreach (ModelMesh mesh in myModel.Meshes)
+            //{
+            //    // This is where the mesh orientation is set, as well 
+            //    // as our camera and projection.
+            //    foreach (BasicEffect effect2 in mesh.Effects)
+            //    {
+            //        effect2.EnableDefaultLighting();
+            //        effect2.World = Matrix.Identity * transforms[mesh.ParentBone.Index]; //Matrix.CreateScale(cameraModelScaling) * thisCamera.RotationMatrix;
+            //        effect2.World = effect.World * Matrix.CreateScale(ModelScale) * Matrix.CreateTranslation(x, y, z);
+
+            //        effect2.View = ViewMatrix;
+            //        effect2.Projection = Matrix.CreatePerspectiveFieldOfView(1, aspect, 0.01f, 100);
+            //        //effect.World = transforms[mesh.ParentBone.Index] *
+            //        //    Matrix.CreateRotationY(modelRotation)
+            //        //    * Matrix.CreateTranslation(modelPosition);
+            //        //effect.View = Matrix.CreateLookAt(cameraPosition,
+            //        //    Vector3.Zero, Vector3.Up);
+            //        //effect.Projection = Matrix.CreatePerspectiveFieldOfView(
+            //        //    MathHelper.ToRadians(45.0f), aspectRatio,
+            //        //    1.0f, 10000.0f);
+            //    }
+            //    // Draw the mesh, using the effects set above.
+            //    //mesh.Draw();
+            //}
+        }
+
+        public int SelectedModel = 3;
+
+        private void drawModel(float x, float y, float z)
+        {
+            float aspect = GraphicsDevice.Viewport.AspectRatio;
+
+            Model myModel = models[SelectedModel];
+
+            // Copy any parent transforms.
+            Matrix[] transforms = new Matrix[myModel.Bones.Count];
+            myModel.CopyBoneTransformsTo(transforms);
+
+            //myModel.
+            foreach (ModelMesh mesh in myModel.Meshes)
+            {
+                // This is where the mesh orientation is set, as well 
+                // as our camera and projection.
+                foreach (BasicEffect effect2 in mesh.Effects)
+                {
+                    effect2.EnableDefaultLighting();
+                    effect2.World = Matrix.Identity  * transforms[mesh.ParentBone.Index]; //Matrix.CreateScale(cameraModelScaling) * thisCamera.RotationMatrix;
+                    effect2.World = effect2.World * Matrix.CreateScale(ModelScale) * Matrix.CreateFromYawPitchRoll(0, 3.14f, 0) * Matrix.CreateTranslation(x, y, z);
+                    //effect2.World = effect2.World * Matrix.CreateFromYawPitchRoll(3.14f / 2.0f, 0, 0);
+
+                    effect2.View = ViewMatrix;
+                    effect2.Projection = Matrix.CreatePerspectiveFieldOfView(1, aspect, 0.01f, 100);
+                    //effect.World = transforms[mesh.ParentBone.Index] *
+                    //    Matrix.CreateRotationY(modelRotation)
+                    //    * Matrix.CreateTranslation(modelPosition);
+                    //effect.View = Matrix.CreateLookAt(cameraPosition,
+                    //    Vector3.Zero, Vector3.Up);
+                    //effect.Projection = Matrix.CreatePerspectiveFieldOfView(
+                    //    MathHelper.ToRadians(45.0f), aspectRatio,
+                    //    1.0f, 10000.0f);
+                }
+                // Draw the mesh, using the effects set above.
+                mesh.Draw();
+            }
         }
 
     }

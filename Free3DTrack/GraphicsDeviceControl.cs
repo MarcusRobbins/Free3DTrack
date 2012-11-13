@@ -34,7 +34,7 @@ namespace WinFormsGraphicsDevice
 
         // However many GraphicsDeviceControl instances you have, they all share
         // the same underlying GraphicsDevice, managed by this helper service.
-        GraphicsDeviceService graphicsDeviceService;
+        public GraphicsDeviceService graphicsDeviceService;
 
 
         #endregion

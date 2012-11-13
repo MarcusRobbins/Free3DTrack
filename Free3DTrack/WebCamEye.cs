@@ -217,7 +217,7 @@ namespace WinFormsGraphicsDevice
         {
             _form = new WebCamForm(new trkExposureCallback(setExposure));
 
-            _camera = CLEyeCreateCamera(CameraUUID(CameraID), CLEyeCameraColorMode.CLEYE_MONO_PROCESSED, CLEyeCameraResolution.CLEYE_VGA, 60);
+            _camera = CLEyeCreateCamera(CameraUUID(CameraID), CLEyeCameraColorMode.CLEYE_MONO_PROCESSED, CLEyeCameraResolution.CLEYE_VGA, 40);
             this.CameraID = CameraID;
 
             int w = 0, h = 0;
@@ -268,6 +268,11 @@ namespace WinFormsGraphicsDevice
 
         int numFrames = 0;
 
+        public bool GrabBackground = false;
+        public bool EnableBackGroundSubtract = false;
+        Bitmap bClone;
+        public bool IsCalibrateMode = false;
+
         // capture thread
         void Capture(object obj)
         {
@@ -296,33 +301,117 @@ namespace WinFormsGraphicsDevice
                         g.DrawImageUnscaled(bmpIn, 0, 0);
                     }
 
-                    BitmapData bmd = ((Bitmap)converted).LockBits(new Rectangle(0, 0, converted.Width, converted.Height), ImageLockMode.ReadWrite, converted.PixelFormat);
 
                     List<int> thresholdxs = new List<int>();
                     List<int> thresholdys = new List<int>();
-                    unsafe
+
+                    BitmapData bmd = ((Bitmap)converted).LockBits(new Rectangle(0, 0, converted.Width, converted.Height), ImageLockMode.ReadWrite, converted.PixelFormat);
+                    if (EnableBackGroundSubtract)
                     {
-                        int PixelSize = 3;
-                        for (int y = 0; y < bmd.Height; y++)
+                        //BitmapData bmdClone;
+                        if (GrabBackground)
                         {
-                            byte* row = (byte*)bmd.Scan0 + (y * bmd.Stride);
-                            //byte* backgroundRow = (byte*)backgroundData.Scan0 + (y * backgroundData.Stride);
-                            for (int x = 0; x < bmd.Width; x++)
+                            bClone = (Bitmap)converted.Clone();
+                            //bmdClone = ((Bitmap)bClone).LockBits(new Rectangle(0, 0, bClone.Width, bClone.Height), ImageLockMode.ReadWrite, bClone.PixelFormat);
+                            GrabBackground = false;
+                        }
+
+                        BitmapData bmdClone = ((Bitmap)bClone).LockBits(new Rectangle(0, 0, bClone.Width, bClone.Height), ImageLockMode.ReadWrite, bClone.PixelFormat);
+
+                        unsafe
+                        {
+                            int PixelSize = 3;
+                            for (int y = 0; y < bmd.Height; y++)
                             {
-                                if (thresholdxs.Count < 10000)
+                                byte* row = (byte*)bmd.Scan0 + (y * bmd.Stride);
+
+                                byte* rowClone = (byte*)bmdClone.Scan0 + (y * bmdClone.Stride);
+                                //byte* backgroundRow = (byte*)backgroundData.Scan0 + (y * backgroundData.Stride);
+                                for (int x = 0; x < bmd.Width; x++)
                                 {
-                                    if (row[x * PixelSize] > thresMag)// && row[(x * PixelSize) + 1] > thresMag && row[(x * PixelSize) + 2] > thresMag)
+
+                                    //If backgroundsubtraction is enabled:
+                                    if (EnableBackGroundSubtract)
                                     {
-                                        //row[x * PixelSize] = 150;
-                                        //row[(x * PixelSize) + 1] = 0;
-                                        //row[(x * PixelSize) + 2] = 255;
-                                        thresholdxs.Add(x);
-                                        thresholdys.Add(y);
+                                        row[x * PixelSize] = (byte)((int)row[x * PixelSize] - (int)rowClone[x * PixelSize]);
+                                        //row[x * PixelSize] = (byte)((int)rowClone[x * PixelSize] - (int)row[x * PixelSize]);
+                                        if (row[x * PixelSize] <= 0)
+                                        {
+                                            row[x * PixelSize] = 1;
+                                        }
+
+                                        row[(x * PixelSize) + 1] = (byte)((int)row[(x * PixelSize) + 1] - (int)rowClone[(x * PixelSize) + 1]);
+                                        //row[(x * PixelSize) + 1] = (byte)((int)rowClone[(x * PixelSize) + 1] - (int)row[(x * PixelSize) + 1]);
+                                        if (row[(x * PixelSize) + 1] <= 0)
+                                        {
+                                            row[(x * PixelSize) + 1] = 1;
+                                        }
+
+                                        row[(x * PixelSize) + 2] = (byte)((int)row[(x * PixelSize) + 2] - (int)rowClone[(x * PixelSize) + 2]);
+                                        //row[(x * PixelSize) + 2] = (byte)((int)rowClone[(x * PixelSize) + 2] - (int)row[(x * PixelSize) + 2]);
+                                        if (row[(x * PixelSize) + 2] <= 0)
+                                        {
+                                            row[(x * PixelSize) + 2] = 1;
+                                        }
+                                    }
+
+                                    if (thresholdxs.Count < 10000)
+                                    {
+                                        if (row[x * PixelSize] > thresMag)// && row[(x * PixelSize) + 1] > thresMag && row[(x * PixelSize) + 2] > thresMag)
+                                        {
+                                            //row[x * PixelSize] = 150;
+                                            //row[(x * PixelSize) + 1] = 0;
+                                            //row[(x * PixelSize) + 2] = 255;
+                                            thresholdxs.Add(640 - x);
+                                            thresholdys.Add(y);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        bClone.UnlockBits(bmdClone);
+                        
+                    }
+                    else
+                    {
+                        unsafe
+                        {
+                            int PixelSize = 3;
+                            for (int y = 0; y < bmd.Height; y++)
+                            {
+                                byte* row = (byte*)bmd.Scan0 + (y * bmd.Stride);
+
+                                
+                                //byte* backgroundRow = (byte*)backgroundData.Scan0 + (y * backgroundData.Stride);
+                                for (int x = 0; x < bmd.Width; x++)
+                                {      
+                                    if (thresholdxs.Count < 10000)
+                                    {
+                                        if (row[x * PixelSize] > thresMag)// && row[(x * PixelSize) + 1] > thresMag && row[(x * PixelSize) + 2] > thresMag)
+                                        {
+                                            //row[x * PixelSize] = 150;
+                                            //row[(x * PixelSize) + 1] = 0;
+                                            //row[(x * PixelSize) + 2] = 255;
+
+                                            if (IsCalibrateMode)
+                                            {
+                                                thresholdxs.Add(x);
+                                                thresholdys.Add(y);
+                                            }
+                                            else 
+                                            {
+                                                thresholdxs.Add(640 - x);
+                                                thresholdys.Add(y);
+                                            }
+                                        }
                                     }
                                 }
                             }
                         }
                     }
+
+                    
 
                     converted.UnlockBits(bmd);
 

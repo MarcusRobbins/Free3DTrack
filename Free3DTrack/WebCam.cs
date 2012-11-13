@@ -102,7 +102,7 @@ namespace WinFormsGraphicsDevice
             while (thresholdxs.Count > 0)
             {
                 WebCamTrack newCluster = new WebCamTrack();
-                newCluster.Points.Add(new Point2D { X = 640 - thresholdxs[0], Y = thresholdys[0], Magnitude = 0 });
+                newCluster.Points.Add(new Point2D { X = thresholdxs[0], Y = thresholdys[0], Magnitude = 0 });
 
                 int innercount = 1;
                 while (innercount < thresholdxs.Count)
@@ -113,7 +113,7 @@ namespace WinFormsGraphicsDevice
 
                     if (distance < 25)
                     {
-                        newCluster.Points.Add(new Point2D { X = 640 - thresholdxs[innercount], Y = thresholdys[innercount], Magnitude = 0 });
+                        newCluster.Points.Add(new Point2D { X = thresholdxs[innercount], Y = thresholdys[innercount], Magnitude = 0 });
                         thresholdxs.RemoveAt(innercount);
                         thresholdys.RemoveAt(innercount);
                     }

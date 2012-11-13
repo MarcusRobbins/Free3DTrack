@@ -141,20 +141,31 @@ namespace WinFormsGraphicsDevice
 
                 for(int t = 0; t < lWebCams[i].FilteredTrackedPoints.TrackedPoints.Count; t++)
                 {
-                    if (lWebCams[i].FilteredTrackedPoints.TrackedPoints[t].Points.Count > 0)
+                    if (lWebCams[i].FilteredTrackedPoints.TrackedPoints[t].Points != null)
                     {
-                        float X = lWebCams[i].FilteredTrackedPoints.TrackedPoints[t].Points.Select(x => x.X).Average();
-                        float Y = lWebCams[i].FilteredTrackedPoints.TrackedPoints[t].Points.Select(x => x.Y).Average();
+                        if (lWebCams[i].FilteredTrackedPoints.TrackedPoints[t].Points.Count > 0)
+                        {
+                            try
+                            {
+                                float X = lWebCams[i].FilteredTrackedPoints.TrackedPoints[t].Points.Select(x => x.X).Average();
+                                float Y = lWebCams[i].FilteredTrackedPoints.TrackedPoints[t].Points.Select(x => x.Y).Average();
 
-                        X = X / 640.0f * thisBitmap.Width;
-                        Y = Y / 480.0f * thisBitmap.Width;
-                        g.DrawRectangle(thisPen, X - 5, Y - 5, 10, 10);
+                                X = X / 640.0f * thisBitmap.Width;
+                                Y = Y / 480.0f * thisBitmap.Width;
+                                g.DrawRectangle(thisPen, X - 5, Y - 5, 10, 10);
+                            }
+                            catch { }
+                        }
                     }
                 }
 
                 lSimpleTrackPictureBox[i].Image = thisBitmap;
                 g.Dispose();
             }
+
+            txtTrackX.Text = spinningTriangleControl.currentTrackX.ToString();
+            txtTrackY.Text = spinningTriangleControl.currentTrackY.ToString();
+            txtTrackZ.Text = spinningTriangleControl.currentTrackZ.ToString();
         }
 
         private void MainForm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -186,8 +197,9 @@ namespace WinFormsGraphicsDevice
             }
             else if (e.Button == System.Windows.Forms.MouseButtons.Middle)
             {
-                spinningTriangleControl.viewTranslationVector.X += (e.X / 80.0f) - (mouseDownX / 80.0f);
-                spinningTriangleControl.viewTranslationVector.Z += (e.Y / 80.0f) - (mouseDownY / 80.0f);
+                spinningTriangleControl.roll += e.X - mouseDownX;
+                //spinningTriangleControl.viewTranslationVector.X += (e.X / 80.0f) - (mouseDownX / 80.0f);
+                //spinningTriangleControl.viewTranslationVector.Z += (e.Y / 80.0f) - (mouseDownY / 80.0f);
             }
 
             mouseDownX = e.X;
@@ -533,6 +545,11 @@ namespace WinFormsGraphicsDevice
 
         private void btnStartCalibration_Click(object sender, EventArgs e)
         {
+            foreach (WebCamEye thisWebCam in lWebCams)
+            {
+                thisWebCam.IsCalibrateMode = true;
+            }
+            
             timer1 = new Timer();
             timer1.Tick += new EventHandler(grabCalibrationPoint);
             timer1.Interval = 100; // in miliseconds
@@ -542,7 +559,83 @@ namespace WinFormsGraphicsDevice
         private void button3_Click(object sender, EventArgs e)
         {
             timer1.Stop();
+
+            foreach (WebCamEye thisWebCam in lWebCams)
+            {
+                thisWebCam.IsCalibrateMode = false;
+            }
         }
 
+        private void trkModelScale_Scroll(object sender, EventArgs e)
+        {
+            spinningTriangleControl.ModelScale = trkModelScale.Value / 1000.0f;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            spinningTriangleControl.ModelX = spinningTriangleControl.currentTrackX;
+            spinningTriangleControl.ModelY = spinningTriangleControl.currentTrackY;
+            spinningTriangleControl.ModelZ = spinningTriangleControl.currentTrackZ;
+        }
+
+        private void chkModelShow_CheckedChanged(object sender, EventArgs e)
+        {
+            spinningTriangleControl.ShowModel = chkModelShow.Checked;
+        }
+
+        private void chkRenderAtIR_CheckedChanged(object sender, EventArgs e)
+        {
+            spinningTriangleControl.IRLocationRender = chkRenderAtIR.Checked;
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            float tempCustomX;
+            if(float.TryParse(textBox1.Text, out tempCustomX))
+            {
+                spinningTriangleControl.customUpX = tempCustomX;
+            }            
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+            float tempCustomY;
+            if (float.TryParse(textBox2.Text, out tempCustomY))
+            {
+                spinningTriangleControl.customUpY = tempCustomY;
+            }
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+            float tempCustomZ;
+            if (float.TryParse(textBox3.Text, out tempCustomZ))
+            {
+                spinningTriangleControl.customUpZ = tempCustomZ;
+            }
+        }
+
+        private void btnBackgroundSub_Click(object sender, EventArgs e)
+        {
+            foreach (WebCamEye thisWebCam in lWebCams)
+            {
+                thisWebCam.EnableBackGroundSubtract = true;
+                thisWebCam.GrabBackground = true;
+            }
+        }
+
+        private void chkTrackModel_CheckedChanged(object sender, EventArgs e)
+        {
+            spinningTriangleControl.ViewTrackModel = chkTrackModel.Checked;
+        }
+
+        private void textBox4_TextChanged(object sender, EventArgs e)
+        {
+            int tempCustomZ;
+            if (int.TryParse(textBox4.Text, out tempCustomZ))
+            {
+                spinningTriangleControl.SelectedModel = tempCustomZ;
+            }
+        }
     }    
 }

@@ -96,7 +96,7 @@ namespace WinFormsGraphicsDevice
                 {
                     string[] matchcoords = keyLines[1+(y*8)].Split(' ');
                     float matchY = float.Parse(matchcoords[0]);
-                    float matchX = 640 - float.Parse(matchcoords[1]);
+                    float matchX = float.Parse(matchcoords[1]);
                     thisCamera.TrackedPoints.Add(new TrackedImagePoint(matchX, matchY));
                 }
 

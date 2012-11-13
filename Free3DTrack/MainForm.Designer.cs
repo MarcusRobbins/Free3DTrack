@@ -38,14 +38,7 @@ namespace WinFormsGraphicsDevice
             this.chkNegateRot = new System.Windows.Forms.CheckBox();
             this.chkInverseRot = new System.Windows.Forms.CheckBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.btnTrackStart = new System.Windows.Forms.Button();
-            this.txtRotAngleY = new System.Windows.Forms.TextBox();
-            this.txtRotAngleX = new System.Windows.Forms.TextBox();
-            this.txtRotAngleZ = new System.Windows.Forms.TextBox();
-            this.btnCameraPermute = new System.Windows.Forms.Button();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.label8 = new System.Windows.Forms.Label();
@@ -62,6 +55,7 @@ namespace WinFormsGraphicsDevice
             this.btnLoadCalibration = new System.Windows.Forms.Button();
             this.lstCalibrations = new System.Windows.Forms.ListBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.btnBackgroundSub = new System.Windows.Forms.Button();
             this.lstBoxCameras = new System.Windows.Forms.ListBox();
             this.label10 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -85,13 +79,36 @@ namespace WinFormsGraphicsDevice
             this.label15 = new System.Windows.Forms.Label();
             this.pnlWebCamTrack = new System.Windows.Forms.Panel();
             this.Drawing = new System.Windows.Forms.TabPage();
+            this.txtTrackZ = new System.Windows.Forms.TextBox();
+            this.txtTrackY = new System.Windows.Forms.TextBox();
+            this.txtTrackX = new System.Windows.Forms.TextBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.chkRenderAtIR = new System.Windows.Forms.CheckBox();
+            this.trkModelScale = new System.Windows.Forms.TrackBar();
+            this.chkModelShow = new System.Windows.Forms.CheckBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.button4 = new System.Windows.Forms.Button();
             this.label16 = new System.Windows.Forms.Label();
             this.btnClearPaint = new System.Windows.Forms.Button();
             this.checkDraw = new System.Windows.Forms.CheckBox();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.btnTrackStart = new System.Windows.Forms.Button();
+            this.txtRotAngleY = new System.Windows.Forms.TextBox();
+            this.txtRotAngleX = new System.Windows.Forms.TextBox();
+            this.txtRotAngleZ = new System.Windows.Forms.TextBox();
+            this.btnCameraPermute = new System.Windows.Forms.Button();
+            this.chkTrackModel = new System.Windows.Forms.CheckBox();
             this.spinningTriangleControl = new WinFormsGraphicsDevice.SpinningTriangleControl();
+            this.textBox4 = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage5.SuspendLayout();
@@ -104,10 +121,8 @@ namespace WinFormsGraphicsDevice
             ((System.ComponentModel.ISupportInitialize)(this.trkIntersectionThreshold)).BeginInit();
             this.tabPage6.SuspendLayout();
             this.Drawing.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trkModelScale)).BeginInit();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtConfigFile
@@ -205,91 +220,23 @@ namespace WinFormsGraphicsDevice
             this.panel1.Size = new System.Drawing.Size(1030, 962);
             this.panel1.TabIndex = 13;
             // 
-            // panel2
+            // splitContainer1
             // 
-            this.panel2.Controls.Add(this.btnImport);
-            this.panel2.Controls.Add(this.button1);
-            this.panel2.Controls.Add(this.button2);
-            this.panel2.Controls.Add(this.txtConfigFile);
-            this.panel2.Controls.Add(this.btnOpenFile);
-            this.panel2.Controls.Add(this.btnTrackStart);
-            this.panel2.Controls.Add(this.chkInverseRot);
-            this.panel2.Controls.Add(this.txtRotAngleY);
-            this.panel2.Controls.Add(this.chkNegateRot);
-            this.panel2.Controls.Add(this.txtRotAngleX);
-            this.panel2.Controls.Add(this.chkTransposeRot);
-            this.panel2.Controls.Add(this.txtRotAngleZ);
-            this.panel2.Controls.Add(this.chkInvertZ);
-            this.panel2.Controls.Add(this.btnCameraPermute);
-            this.panel2.Location = new System.Drawing.Point(610, 22);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(408, 295);
-            this.panel2.TabIndex = 44;
-            this.panel2.Visible = false;
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Name = "splitContainer1";
             // 
-            // button1
+            // splitContainer1.Panel1
             // 
-            this.button1.Location = new System.Drawing.Point(136, 250);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(93, 23);
-            this.button1.TabIndex = 23;
-            this.button1.Text = "WebCamStart";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.splitContainer1.Panel1.Controls.Add(this.tabControl1);
             // 
-            // button2
+            // splitContainer1.Panel2
             // 
-            this.button2.Location = new System.Drawing.Point(136, 221);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(93, 23);
-            this.button2.TabIndex = 25;
-            this.button2.Text = "Track Start";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // btnTrackStart
-            // 
-            this.btnTrackStart.Location = new System.Drawing.Point(265, 55);
-            this.btnTrackStart.Name = "btnTrackStart";
-            this.btnTrackStart.Size = new System.Drawing.Size(75, 23);
-            this.btnTrackStart.TabIndex = 19;
-            this.btnTrackStart.Text = "Track Start";
-            this.btnTrackStart.UseVisualStyleBackColor = true;
-            this.btnTrackStart.Click += new System.EventHandler(this.btnTrackStart_Click);
-            // 
-            // txtRotAngleY
-            // 
-            this.txtRotAngleY.Location = new System.Drawing.Point(265, 170);
-            this.txtRotAngleY.Name = "txtRotAngleY";
-            this.txtRotAngleY.Size = new System.Drawing.Size(100, 20);
-            this.txtRotAngleY.TabIndex = 17;
-            this.txtRotAngleY.TextChanged += new System.EventHandler(this.txtRotAngleY_TextChanged);
-            // 
-            // txtRotAngleX
-            // 
-            this.txtRotAngleX.Location = new System.Drawing.Point(265, 119);
-            this.txtRotAngleX.Name = "txtRotAngleX";
-            this.txtRotAngleX.Size = new System.Drawing.Size(100, 20);
-            this.txtRotAngleX.TabIndex = 13;
-            this.txtRotAngleX.TextChanged += new System.EventHandler(this.txtRotAngleX_TextChanged);
-            // 
-            // txtRotAngleZ
-            // 
-            this.txtRotAngleZ.Location = new System.Drawing.Point(265, 221);
-            this.txtRotAngleZ.Name = "txtRotAngleZ";
-            this.txtRotAngleZ.Size = new System.Drawing.Size(100, 20);
-            this.txtRotAngleZ.TabIndex = 18;
-            this.txtRotAngleZ.TextChanged += new System.EventHandler(this.txtRotAngleZ_TextChanged);
-            // 
-            // btnCameraPermute
-            // 
-            this.btnCameraPermute.Location = new System.Drawing.Point(39, 66);
-            this.btnCameraPermute.Name = "btnCameraPermute";
-            this.btnCameraPermute.Size = new System.Drawing.Size(75, 23);
-            this.btnCameraPermute.TabIndex = 21;
-            this.btnCameraPermute.Text = "Camera Permute";
-            this.btnCameraPermute.UseVisualStyleBackColor = true;
-            this.btnCameraPermute.Click += new System.EventHandler(this.btnCameraPermute_Click);
+            this.splitContainer1.Panel2.Controls.Add(this.spinningTriangleControl);
+            this.splitContainer1.Size = new System.Drawing.Size(1030, 962);
+            this.splitContainer1.SplitterDistance = 300;
+            this.splitContainer1.SplitterWidth = 5;
+            this.splitContainer1.TabIndex = 45;
             // 
             // tabControl1
             // 
@@ -420,7 +367,7 @@ namespace WinFormsGraphicsDevice
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(309, 936);
+            this.tabPage5.Size = new System.Drawing.Size(292, 936);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Load Config";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -456,6 +403,7 @@ namespace WinFormsGraphicsDevice
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.btnBackgroundSub);
             this.tabPage2.Controls.Add(this.lstBoxCameras);
             this.tabPage2.Controls.Add(this.label10);
             this.tabPage2.Controls.Add(this.label7);
@@ -464,10 +412,20 @@ namespace WinFormsGraphicsDevice
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(309, 936);
+            this.tabPage2.Size = new System.Drawing.Size(292, 936);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Webcams";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // btnBackgroundSub
+            // 
+            this.btnBackgroundSub.Location = new System.Drawing.Point(16, 188);
+            this.btnBackgroundSub.Name = "btnBackgroundSub";
+            this.btnBackgroundSub.Size = new System.Drawing.Size(120, 23);
+            this.btnBackgroundSub.TabIndex = 48;
+            this.btnBackgroundSub.Text = "Subtract Background";
+            this.btnBackgroundSub.UseVisualStyleBackColor = true;
+            this.btnBackgroundSub.Click += new System.EventHandler(this.btnBackgroundSub_Click);
             // 
             // lstBoxCameras
             // 
@@ -528,7 +486,7 @@ namespace WinFormsGraphicsDevice
             this.tabPage3.Controls.Add(this.label4);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(309, 936);
+            this.tabPage3.Size = new System.Drawing.Size(292, 936);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "2D Config";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -607,7 +565,7 @@ namespace WinFormsGraphicsDevice
             this.tabPage4.Controls.Add(this.label3);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(309, 936);
+            this.tabPage4.Size = new System.Drawing.Size(292, 936);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "3D Config";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -680,7 +638,7 @@ namespace WinFormsGraphicsDevice
             this.tabPage6.Controls.Add(this.pnlWebCamTrack);
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
             this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(309, 936);
+            this.tabPage6.Size = new System.Drawing.Size(292, 936);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "Track View";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -707,15 +665,125 @@ namespace WinFormsGraphicsDevice
             // 
             // Drawing
             // 
+            this.Drawing.Controls.Add(this.textBox4);
+            this.Drawing.Controls.Add(this.chkTrackModel);
+            this.Drawing.Controls.Add(this.txtTrackZ);
+            this.Drawing.Controls.Add(this.txtTrackY);
+            this.Drawing.Controls.Add(this.txtTrackX);
+            this.Drawing.Controls.Add(this.textBox3);
+            this.Drawing.Controls.Add(this.textBox2);
+            this.Drawing.Controls.Add(this.textBox1);
+            this.Drawing.Controls.Add(this.chkRenderAtIR);
+            this.Drawing.Controls.Add(this.trkModelScale);
+            this.Drawing.Controls.Add(this.chkModelShow);
+            this.Drawing.Controls.Add(this.label17);
+            this.Drawing.Controls.Add(this.button4);
             this.Drawing.Controls.Add(this.label16);
             this.Drawing.Controls.Add(this.btnClearPaint);
             this.Drawing.Controls.Add(this.checkDraw);
             this.Drawing.Location = new System.Drawing.Point(4, 22);
             this.Drawing.Name = "Drawing";
-            this.Drawing.Size = new System.Drawing.Size(309, 936);
+            this.Drawing.Size = new System.Drawing.Size(292, 936);
             this.Drawing.TabIndex = 6;
             this.Drawing.Text = "Draw";
             this.Drawing.UseVisualStyleBackColor = true;
+            // 
+            // txtTrackZ
+            // 
+            this.txtTrackZ.Location = new System.Drawing.Point(16, 548);
+            this.txtTrackZ.Name = "txtTrackZ";
+            this.txtTrackZ.Size = new System.Drawing.Size(100, 20);
+            this.txtTrackZ.TabIndex = 61;
+            // 
+            // txtTrackY
+            // 
+            this.txtTrackY.Location = new System.Drawing.Point(16, 522);
+            this.txtTrackY.Name = "txtTrackY";
+            this.txtTrackY.Size = new System.Drawing.Size(100, 20);
+            this.txtTrackY.TabIndex = 60;
+            // 
+            // txtTrackX
+            // 
+            this.txtTrackX.Location = new System.Drawing.Point(16, 496);
+            this.txtTrackX.Name = "txtTrackX";
+            this.txtTrackX.Size = new System.Drawing.Size(100, 20);
+            this.txtTrackX.TabIndex = 59;
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(16, 434);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(100, 20);
+            this.textBox3.TabIndex = 58;
+            this.textBox3.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(16, 408);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(100, 20);
+            this.textBox2.TabIndex = 57;
+            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(16, 382);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 20);
+            this.textBox1.TabIndex = 56;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
+            // chkRenderAtIR
+            // 
+            this.chkRenderAtIR.AutoSize = true;
+            this.chkRenderAtIR.Location = new System.Drawing.Point(16, 334);
+            this.chkRenderAtIR.Name = "chkRenderAtIR";
+            this.chkRenderAtIR.Size = new System.Drawing.Size(127, 17);
+            this.chkRenderAtIR.TabIndex = 55;
+            this.chkRenderAtIR.Text = "Render at IR location";
+            this.chkRenderAtIR.UseVisualStyleBackColor = true;
+            this.chkRenderAtIR.CheckedChanged += new System.EventHandler(this.chkRenderAtIR_CheckedChanged);
+            // 
+            // trkModelScale
+            // 
+            this.trkModelScale.Location = new System.Drawing.Point(3, 260);
+            this.trkModelScale.Maximum = 200;
+            this.trkModelScale.Name = "trkModelScale";
+            this.trkModelScale.Size = new System.Drawing.Size(280, 45);
+            this.trkModelScale.TabIndex = 54;
+            this.trkModelScale.Value = 1;
+            this.trkModelScale.Scroll += new System.EventHandler(this.trkModelScale_Scroll);
+            // 
+            // chkModelShow
+            // 
+            this.chkModelShow.AutoSize = true;
+            this.chkModelShow.Location = new System.Drawing.Point(16, 203);
+            this.chkModelShow.Name = "chkModelShow";
+            this.chkModelShow.Size = new System.Drawing.Size(85, 17);
+            this.chkModelShow.TabIndex = 53;
+            this.chkModelShow.Text = "Show Model";
+            this.chkModelShow.UseVisualStyleBackColor = true;
+            this.chkModelShow.CheckedChanged += new System.EventHandler(this.chkModelShow_CheckedChanged);
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.ForeColor = System.Drawing.Color.Red;
+            this.label17.Location = new System.Drawing.Point(13, 170);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(228, 13);
+            this.label17.TabIndex = 52;
+            this.label17.Text = "This will add a model at the current IR location.";
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(16, 132);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(75, 23);
+            this.button4.TabIndex = 51;
+            this.button4.Text = "Add Model";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // label16
             // 
@@ -749,23 +817,104 @@ namespace WinFormsGraphicsDevice
             this.checkDraw.UseVisualStyleBackColor = true;
             this.checkDraw.CheckedChanged += new System.EventHandler(this.checkDraw_CheckedChanged);
             // 
-            // splitContainer1
+            // panel2
             // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Name = "splitContainer1";
+            this.panel2.Controls.Add(this.btnImport);
+            this.panel2.Controls.Add(this.button1);
+            this.panel2.Controls.Add(this.button2);
+            this.panel2.Controls.Add(this.txtConfigFile);
+            this.panel2.Controls.Add(this.btnOpenFile);
+            this.panel2.Controls.Add(this.btnTrackStart);
+            this.panel2.Controls.Add(this.chkInverseRot);
+            this.panel2.Controls.Add(this.txtRotAngleY);
+            this.panel2.Controls.Add(this.chkNegateRot);
+            this.panel2.Controls.Add(this.txtRotAngleX);
+            this.panel2.Controls.Add(this.chkTransposeRot);
+            this.panel2.Controls.Add(this.txtRotAngleZ);
+            this.panel2.Controls.Add(this.chkInvertZ);
+            this.panel2.Controls.Add(this.btnCameraPermute);
+            this.panel2.Location = new System.Drawing.Point(610, 22);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(408, 295);
+            this.panel2.TabIndex = 44;
+            this.panel2.Visible = false;
             // 
-            // splitContainer1.Panel1
+            // button1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.tabControl1);
+            this.button1.Location = new System.Drawing.Point(136, 250);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(93, 23);
+            this.button1.TabIndex = 23;
+            this.button1.Text = "WebCamStart";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // splitContainer1.Panel2
+            // button2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.spinningTriangleControl);
-            this.splitContainer1.Size = new System.Drawing.Size(1030, 962);
-            this.splitContainer1.SplitterDistance = 300;
-            this.splitContainer1.SplitterWidth = 5;
-            this.splitContainer1.TabIndex = 45;
+            this.button2.Location = new System.Drawing.Point(136, 221);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(93, 23);
+            this.button2.TabIndex = 25;
+            this.button2.Text = "Track Start";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // btnTrackStart
+            // 
+            this.btnTrackStart.Location = new System.Drawing.Point(265, 55);
+            this.btnTrackStart.Name = "btnTrackStart";
+            this.btnTrackStart.Size = new System.Drawing.Size(75, 23);
+            this.btnTrackStart.TabIndex = 19;
+            this.btnTrackStart.Text = "Track Start";
+            this.btnTrackStart.UseVisualStyleBackColor = true;
+            this.btnTrackStart.Click += new System.EventHandler(this.btnTrackStart_Click);
+            // 
+            // txtRotAngleY
+            // 
+            this.txtRotAngleY.Location = new System.Drawing.Point(265, 170);
+            this.txtRotAngleY.Name = "txtRotAngleY";
+            this.txtRotAngleY.Size = new System.Drawing.Size(100, 20);
+            this.txtRotAngleY.TabIndex = 17;
+            this.txtRotAngleY.TextChanged += new System.EventHandler(this.txtRotAngleY_TextChanged);
+            // 
+            // txtRotAngleX
+            // 
+            this.txtRotAngleX.Location = new System.Drawing.Point(265, 119);
+            this.txtRotAngleX.Name = "txtRotAngleX";
+            this.txtRotAngleX.Size = new System.Drawing.Size(100, 20);
+            this.txtRotAngleX.TabIndex = 13;
+            this.txtRotAngleX.TextChanged += new System.EventHandler(this.txtRotAngleX_TextChanged);
+            // 
+            // txtRotAngleZ
+            // 
+            this.txtRotAngleZ.Location = new System.Drawing.Point(265, 221);
+            this.txtRotAngleZ.Name = "txtRotAngleZ";
+            this.txtRotAngleZ.Size = new System.Drawing.Size(100, 20);
+            this.txtRotAngleZ.TabIndex = 18;
+            this.txtRotAngleZ.TextChanged += new System.EventHandler(this.txtRotAngleZ_TextChanged);
+            // 
+            // btnCameraPermute
+            // 
+            this.btnCameraPermute.Location = new System.Drawing.Point(39, 66);
+            this.btnCameraPermute.Name = "btnCameraPermute";
+            this.btnCameraPermute.Size = new System.Drawing.Size(75, 23);
+            this.btnCameraPermute.TabIndex = 21;
+            this.btnCameraPermute.Text = "Camera Permute";
+            this.btnCameraPermute.UseVisualStyleBackColor = true;
+            this.btnCameraPermute.Click += new System.EventHandler(this.btnCameraPermute_Click);
+            // 
+            // chkTrackModel
+            // 
+            this.chkTrackModel.AutoSize = true;
+            this.chkTrackModel.Checked = true;
+            this.chkTrackModel.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkTrackModel.Location = new System.Drawing.Point(156, 203);
+            this.chkTrackModel.Name = "chkTrackModel";
+            this.chkTrackModel.Size = new System.Drawing.Size(86, 17);
+            this.chkTrackModel.TabIndex = 62;
+            this.chkTrackModel.Text = "Track Model";
+            this.chkTrackModel.UseVisualStyleBackColor = true;
+            this.chkTrackModel.CheckedChanged += new System.EventHandler(this.chkTrackModel_CheckedChanged);
             // 
             // spinningTriangleControl
             // 
@@ -782,6 +931,14 @@ namespace WinFormsGraphicsDevice
             this.spinningTriangleControl.Text = "spinningTriangleControl1";
             this.spinningTriangleControl.yaw = 0F;
             // 
+            // textBox4
+            // 
+            this.textBox4.Location = new System.Drawing.Point(156, 633);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(100, 20);
+            this.textBox4.TabIndex = 63;
+            this.textBox4.TextChanged += new System.EventHandler(this.textBox4_TextChanged);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -792,8 +949,10 @@ namespace WinFormsGraphicsDevice
             this.Text = "WinForms Graphics Device";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.panel1.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
@@ -813,10 +972,9 @@ namespace WinFormsGraphicsDevice
             this.tabPage6.PerformLayout();
             this.Drawing.ResumeLayout(false);
             this.Drawing.PerformLayout();
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.trkModelScale)).EndInit();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -884,6 +1042,20 @@ namespace WinFormsGraphicsDevice
         public System.Windows.Forms.Label label16;
         private System.Windows.Forms.ListBox lstBoxCameras;
         private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.CheckBox chkModelShow;
+        public System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.TrackBar trkModelScale;
+        private System.Windows.Forms.CheckBox chkRenderAtIR;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtTrackZ;
+        private System.Windows.Forms.TextBox txtTrackY;
+        private System.Windows.Forms.TextBox txtTrackX;
+        private System.Windows.Forms.Button btnBackgroundSub;
+        private System.Windows.Forms.CheckBox chkTrackModel;
+        private System.Windows.Forms.TextBox textBox4;
     }
 }
 
