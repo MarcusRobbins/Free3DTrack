@@ -1,5 +1,3 @@
-I will be adding more notes to this shortly, but I need to go to bed right now.
-
 This application enables you to use USB Webcams to track a light source in 3D.
 The intended application for this is for VR headtracking.
 At the moment it allows you to write and draw in the air in 3 Dimensions.
